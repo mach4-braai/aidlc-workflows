@@ -7,7 +7,7 @@
 **Architecture:** Three independent Go modules under `scripts/`, each with a Cobra CLI, AWS SDK Go v2 for Bedrock, and a custom thin Bedrock agent loop replacing `strands-agents`. Internal packages mirror the Python layer structure exactly. The evaluator's Docker sandbox uses the Docker SDK for Go rather than shell-outs. Config files, prompt templates, and pattern docs are embedded into the binary via `embed.FS`. Go templates replace Jinja2.
 
 **Tech Stack:**
-- Go 1.23+
+- Go 1.25
 - `github.com/spf13/cobra` — CLI framework (replaces Click/argparse)
 - `github.com/aws/aws-sdk-go-v2` — AWS SDK (replaces boto3)
 - `github.com/aws/aws-sdk-go-v2/service/bedrockruntime` — Bedrock Converse API (replaces strands-agents)
@@ -22,7 +22,7 @@
 **Python reference:** `aidlc-workflows-py/` git submodule. Read it for behaviour, not structure.
 
 **Key structural mirror:**
-```
+```text
 Python                                      Go
 scripts/aidlc-designreview/src/design_reviewer/{foundation,validation,parsing,ai_review,reporting,orchestration,cli}/
 → scripts/aidlc-designreview/internal/{foundation,validation,parsing,aireview,reporting,orchestration}/
@@ -2257,7 +2257,7 @@ func TestCLIHelp(t *testing.T) {
 
 **Step 2: Implement Cobra subcommands** — mirror Python mode dispatch:
 
-```
+```text
 aidlc-eval full    [--vision] [--tech-env] [--golden] [--openapi] [--config] [--aws-profile] [--aws-region]
 aidlc-eval cli     [--cli {claude-code,kiro-cli}] [--scenario] [--config]
 aidlc-eval ide     [--ide {cursor,cline,kiro,windsurf,copilot}] [--scenario] [--config]
