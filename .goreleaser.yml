@@ -1,0 +1,54 @@
+version: 2
+
+before:
+  hooks:
+    - sh -c "cd scripts/aidlc-traceability && go mod tidy"
+    - sh -c "cd scripts/aidlc-designreview && go mod tidy"
+    - sh -c "cd scripts/aidlc-evaluator && go mod tidy"
+
+builds:
+  - id: traceability
+    dir: scripts/aidlc-traceability
+    main: ./cmd/traceability
+    binary: aidlc-traceability
+    env: [CGO_ENABLED=0]
+    goos: [linux, darwin, windows]
+    goarch: [amd64, arm64]
+    ldflags:
+      - -s -w -X main.version={{.Version}}
+
+  - id: designreview
+    dir: scripts/aidlc-designreview
+    main: ./cmd/design-reviewer
+    binary: aidlc-designreview
+    env: [CGO_ENABLED=0]
+    goos: [linux, darwin, windows]
+    goarch: [amd64, arm64]
+    ldflags:
+      - -s -w -X main.version={{.Version}}
+
+  - id: evaluator
+    dir: scripts/aidlc-evaluator
+    main: ./cmd/aidlc-eval
+    binary: aidlc-evaluator
+    env: [CGO_ENABLED=0]
+    goos: [linux, darwin, windows]
+    goarch: [amd64, arm64]
+    ldflags:
+      - -s -w -X main.version={{.Version}}
+
+archives:
+  - id: all
+    formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    name_template: "{{ .Binary }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+
+checksum:
+  name_template: checksums.txt
+
+changelog:
+  sort: asc
+  filters:
+    exclude: ['^docs:', '^test:', '^chore:']
