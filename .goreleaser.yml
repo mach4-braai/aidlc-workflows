@@ -2,8 +2,9 @@ version: 2
 
 before:
   hooks:
-    - go mod tidy
-    - go generate ./...
+    - sh -c "cd scripts/aidlc-traceability && go mod tidy"
+    - sh -c "cd scripts/aidlc-designreview && go mod tidy"
+    - sh -c "cd scripts/aidlc-evaluator && go mod tidy"
 
 builds:
   - id: traceability
@@ -38,10 +39,10 @@ builds:
 
 archives:
   - id: all
-    format: tar.gz
+    formats: [tar.gz]
     format_overrides:
       - goos: windows
-        format: zip
+        formats: [zip]
     name_template: "{{ .Binary }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
 
 checksum:
