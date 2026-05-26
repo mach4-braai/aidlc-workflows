@@ -30,7 +30,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install uv (Python package manager)
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+COPY --from=ghcr.io/astral-sh/uv:0.11.16 /uv /usr/local/bin/uv
 
 # Create non-root sandbox user (UID 1000)
 RUN groupadd -g 1000 sandbox \
